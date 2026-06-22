@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 
-const childProcess = require("child_process")
-const fs = require("fs")
-const path = require("path")
-const os = require("os")
+import childProcess from "child_process"
+import fs from "fs"
+import path from "path"
+import os from "os"
+import { fileURLToPath } from "url"
 
 function run(target) {
   const result = childProcess.spawnSync(target, process.argv.slice(2), {
+    env: {
+      ...process.env,
+      LOWECODE_BRAND: "1",
+    },
     stdio: "inherit",
   })
   if (result.error) {
@@ -17,18 +22,59 @@ function run(target) {
   process.exit(code)
 }
 
+function runBun(bun, packageDir) {
+  const result = childProcess.spawnSync(
+    bun,
+    ["run", "--cwd", packageDir, "--conditions=browser", "src/index.ts", ...process.argv.slice(2)],
+    {
+      env: {
+        ...process.env,
+        LOWECODE_BRAND: "1",
+      },
+      stdio: "inherit",
+    },
+  )
+  if (result.error) {
+    console.error(result.error.message)
+    process.exit(1)
+  }
+  const code = typeof result.status === "number" ? result.status : 0
+  process.exit(code)
+}
+
+function findBun() {
+  for (const command of ["bun", "bun.exe"]) {
+    const result = childProcess.spawnSync(command, ["--version"], {
+      encoding: "utf8",
+      windowsHide: true,
+    })
+    if (result.status === 0) return command
+  }
+
+  const home = os.homedir()
+  const candidate = path.join(home, ".bun", "bin", os.platform() === "win32" ? "bun.exe" : "bun")
+  if (fs.existsSync(candidate)) return candidate
+}
+
 const envPath = process.env.OPENCODE_BIN_PATH
 if (envPath) {
   run(envPath)
 }
 
-const scriptPath = fs.realpathSync(__filename)
+const scriptPath = fs.realpathSync(fileURLToPath(import.meta.url))
 const scriptDir = path.dirname(scriptPath)
 
 //
 const cached = path.join(scriptDir, ".opencode")
 if (fs.existsSync(cached)) {
   run(cached)
+}
+
+const packageDir = path.resolve(scriptDir, "..")
+const sourceEntry = path.join(packageDir, "src", "index.ts")
+if (process.env.LOWECODE_USE_DIST !== "1" && fs.existsSync(sourceEntry)) {
+  const bun = findBun()
+  if (bun) runBun(bun, packageDir)
 }
 
 const platformMap = {
@@ -50,7 +96,7 @@ let arch = archMap[os.arch()]
 if (!arch) {
   arch = os.arch()
 }
-const base = "opencode-" + platform + "-" + arch
+const base = "lowecode-" + platform + "-" + arch
 const binary = platform === "windows" ? "opencode.exe" : "opencode"
 
 function supportsAvx2() {
@@ -149,6 +195,12 @@ const names = (() => {
 })()
 
 function findBinary(startDir) {
+  const localDist = path.resolve(packageDir, "dist")
+  for (const name of names) {
+    const candidate = path.join(localDist, name, "bin", binary)
+    if (fs.existsSync(candidate)) return candidate
+  }
+
   let current = startDir
   for (;;) {
     const modules = path.join(current, "node_modules")

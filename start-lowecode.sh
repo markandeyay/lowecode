@@ -8,6 +8,8 @@ echo "Model: mylow-1"
 echo ""
 
 export LOWES_MYLOW_BASE_URL="${LOWES_MYLOW_BASE_URL:-http://localhost:${LOWECODE_ADAPTER_PORT:-3000}/v1}"
+export LOWECODE_MOCK="${LOWECODE_MOCK:-0}"
+export LOWECODE_BROWSER_MODE="${LOWECODE_BROWSER_MODE:-0}"
 
 echo "LOWECODE provider: lowes-mylow"
 echo "LOWECODE model: mylow-1"
@@ -16,7 +18,7 @@ echo "LOWECODE base URL: ${LOWES_MYLOW_BASE_URL}"
 if [ "${LOWECODE_MOCK:-0}" = "1" ]; then
   echo "LOWECODE MOCK MODE: test-only adapter responses will be used."
 elif [ "${LOWECODE_BROWSER_MODE:-0}" = "1" ]; then
-  echo "LOWECODE BROWSER MODE: experimental — a visible browser will open for Mylow access."
+  echo "LOWECODE BROWSER MODE: experimental - a visible browser will open for Mylow access."
   echo "  Mylow URL: ${LOWECODE_MYLOW_URL:-https://www.lowes.com/l/about/ai-at-lowes}"
   echo "  Profile: ${LOWECODE_BROWSER_PROFILE_DIR:-.lowecode-browser-profile}"
   echo "  Complete any login or verification in the browser window manually."
@@ -39,7 +41,16 @@ else
   echo "lowes-llm-provider not found; expecting external adapter at ${LOWES_MYLOW_BASE_URL}"
 fi
 
-bun run --cwd packages/opencode --conditions=browser src/index.ts "$@"
+BUN_BIN="${BUN_BIN:-bun}"
+if ! command -v "${BUN_BIN}" >/dev/null 2>&1; then
+  if command -v bun.exe >/dev/null 2>&1; then
+    BUN_BIN="bun.exe"
+  elif [ -x "${HOME:-}/.bun/bin/bun.exe" ]; then
+    BUN_BIN="${HOME}/.bun/bin/bun.exe"
+  fi
+fi
+
+"${BUN_BIN}" run --cwd packages/opencode --conditions=browser src/index.ts "$@"
 
 if [ -n "${ADAPTER_PID:-}" ]; then
   kill "$ADAPTER_PID" 2>/dev/null || true

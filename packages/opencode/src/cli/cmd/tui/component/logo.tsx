@@ -1,83 +1,30 @@
-import { TextAttributes, RGBA } from "@opentui/core"
-import { For, type JSX } from "solid-js"
-import { useTheme, tint } from "@tui/context/theme"
-import { logo, marks } from "@/cli/logo"
-
-// Shadow markers (rendered chars in parens):
-// _ = full shadow cell (space with bg=shadow)
-// ^ = letter top, shadow bottom (▀ with fg=letter, bg=shadow)
-// ~ = shadow top only (▀ with fg=shadow)
-const SHADOW_MARKER = new RegExp(`[${marks}]`)
+import { TextAttributes } from "@opentui/core"
+import { useTerminalDimensions } from "@opentui/solid"
+import { For } from "solid-js"
+import { useTheme } from "@tui/context/theme"
+import { logo } from "@/cli/logo"
 
 export function Logo() {
   const { theme } = useTheme()
+  const dimensions = useTerminalDimensions()
 
-  const renderLine = (line: string, fg: RGBA, bold: boolean): JSX.Element[] => {
-    const shadow = tint(theme.background, fg, 0.25)
-    const attrs = bold ? TextAttributes.BOLD : undefined
-    const elements: JSX.Element[] = []
-    let i = 0
-
-    while (i < line.length) {
-      const rest = line.slice(i)
-      const markerIndex = rest.search(SHADOW_MARKER)
-
-      if (markerIndex === -1) {
-        elements.push(
-          <text fg={fg} attributes={attrs} selectable={false}>
-            {rest}
-          </text>,
-        )
-        break
-      }
-
-      if (markerIndex > 0) {
-        elements.push(
-          <text fg={fg} attributes={attrs} selectable={false}>
-            {rest.slice(0, markerIndex)}
-          </text>,
-        )
-      }
-
-      const marker = rest[markerIndex]
-      switch (marker) {
-        case "_":
-          elements.push(
-            <text fg={fg} bg={shadow} attributes={attrs} selectable={false}>
-              {" "}
-            </text>,
-          )
-          break
-        case "^":
-          elements.push(
-            <text fg={fg} bg={shadow} attributes={attrs} selectable={false}>
-              ▀
-            </text>,
-          )
-          break
-        case "~":
-          elements.push(
-            <text fg={shadow} attributes={attrs} selectable={false}>
-              ▀
-            </text>,
-          )
-          break
-      }
-
-      i += markerIndex + 1
-    }
-
-    return elements
+  const center = (line: string) => {
+    const width = dimensions().width
+    if (width <= line.length) return line.trimEnd()
+    return " ".repeat(Math.floor((width - line.length) / 2)) + line.trimEnd()
   }
 
   return (
-    <box>
-      <For each={logo.left}>
+    <box flexDirection="column" width={dimensions().width}>
+      <For each={logo.lines}>
         {(line, index) => (
-          <box flexDirection="row" gap={1}>
-            <box flexDirection="row">{renderLine(line, theme.textMuted, false)}</box>
-            <box flexDirection="row">{renderLine(logo.right[index()], theme.text, true)}</box>
-          </box>
+          <text
+            fg={index() === 0 || index() === logo.lines.length - 1 ? theme.primary : theme.secondary}
+            attributes={TextAttributes.BOLD}
+            selectable={false}
+          >
+            {center(line)}
+          </text>
         )}
       </For>
     </box>

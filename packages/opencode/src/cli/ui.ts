@@ -41,51 +41,19 @@ export namespace UI {
   }
 
   export function logo(pad?: string) {
-    const result: string[] = []
+    const blue = "\x1b[38;2;0;73;144m"
+    const brightBlue = "\x1b[38;2;0;80;164m"
+    const bold = "\x1b[1m"
     const reset = "\x1b[0m"
-    const left = {
-      fg: "\x1b[38;2;0;73;144m",
-      shadow: "\x1b[38;2;0;30;66m",
-      bg: "\x1b[48;2;0;30;66m",
-    }
-    const right = {
-      fg: reset,
-      shadow: "\x1b[38;2;0;80;164m",
-      bg: "\x1b[48;2;0;80;164m",
-    }
-    const gap = " "
-    const draw = (line: string, fg: string, shadow: string, bg: string) => {
-      const parts: string[] = []
-      for (const char of line) {
-        if (char === "_") {
-          parts.push(bg, " ", reset)
-          continue
-        }
-        if (char === "^") {
-          parts.push(fg, bg, "▀", reset)
-          continue
-        }
-        if (char === "~") {
-          parts.push(shadow, "▀", reset)
-          continue
-        }
-        if (char === " ") {
-          parts.push(" ")
-          continue
-        }
-        parts.push(fg, char, reset)
-      }
-      return parts.join("")
-    }
-    glyphs.left.forEach((row, index) => {
-      if (pad) result.push(pad)
-      result.push(draw(row, left.fg, left.shadow, left.bg))
-      result.push(gap)
-      const other = glyphs.right[index] ?? ""
-      result.push(draw(other, right.fg, right.shadow, right.bg))
-      result.push(EOL)
-    })
-    return result.join("").trimEnd()
+    const width = process.stderr.columns || process.stdout.columns || 0
+    return glyphs.lines
+      .map((line, index) => {
+        const center = width > line.length ? " ".repeat(Math.floor((width - line.length) / 2)) : ""
+        const prefix = (pad ?? "") + center
+        const color = index === 0 || index === glyphs.lines.length - 1 ? blue : brightBlue + bold
+        return prefix + color + line.trimEnd() + reset
+      })
+      .join(EOL)
   }
 
   export async function input(prompt: string): Promise<string> {
