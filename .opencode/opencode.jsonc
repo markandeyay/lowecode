@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "lowes-mylow/mylow-1",
+  "theme": "lowecode-blue",
+  "autoupdate": false,
+  "provider": {
+    "lowes-mylow": {
+      "options": {},
+    },
+  },
+  "permission": {
+    "edit": {
+      "packages/opencode/migration/*": "deny",
+    },
+  },
+  "mcp": {},
+  "tools": {
+    "github-triage": false,
+    "github-pr-search": false,
+  },
+}
