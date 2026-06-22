@@ -1,0 +1,231 @@
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "defs": {
+    "lowesBlue": "#004990",
+    "lowesBrightBlue": "#0050A4",
+    "lowesBg": "#001E42",
+    "lowesPanel": "#002a5c",
+    "lowesElement": "#00357a",
+    "lowesBorder": "#0050A4",
+    "lowesBorderSubtle": "#00357a",
+    "lowesFg": "#FFFFFF",
+    "lowesMuted": "#B8C7DA",
+    "lowesError": "#FF4D4F",
+    "lowesWarning": "#F5A623",
+    "lowesSuccess": "#3CB371",
+    "lowesInfo": "#0050A4",
+    "lowesAccent": "#FFFFFF",
+    "lowesLink": "#5BA3FF",
+    "lowesCode": "#7FD1E0",
+    "lightBg": "#F2F6FB",
+    "lightPanel": "#E6EEF7",
+    "lightElement": "#D6E4F2",
+    "lightBorder": "#004990",
+    "lightFg": "#001E42",
+    "lightMuted": "#5A6B82",
+    "lightLink": "#004990",
+    "lightCode": "#00357a"
+  },
+  "theme": {
+    "primary": {
+      "dark": "lowesBlue",
+      "light": "lowesBlue"
+    },
+    "secondary": {
+      "dark": "lowesBrightBlue",
+      "light": "lowesBrightBlue"
+    },
+    "accent": {
+      "dark": "lowesAccent",
+      "light": "lowesBlue"
+    },
+    "error": {
+      "dark": "lowesError",
+      "light": "lowesError"
+    },
+    "warning": {
+      "dark": "lowesWarning",
+      "light": "lowesWarning"
+    },
+    "success": {
+      "dark": "lowesSuccess",
+      "light": "lowesSuccess"
+    },
+    "info": {
+      "dark": "lowesInfo",
+      "light": "lowesInfo"
+    },
+    "text": {
+      "dark": "lowesFg",
+      "light": "lightFg"
+    },
+    "textMuted": {
+      "dark": "lowesMuted",
+      "light": "lightMuted"
+    },
+    "background": {
+      "dark": "lowesBg",
+      "light": "lightBg"
+    },
+    "backgroundPanel": {
+      "dark": "lowesPanel",
+      "light": "lightPanel"
+    },
+    "backgroundElement": {
+      "dark": "lowesElement",
+      "light": "lightElement"
+    },
+    "border": {
+      "dark": "lowesBorder",
+      "light": "lightBorder"
+    },
+    "borderActive": {
+      "dark": "lowesBrightBlue",
+      "light": "lowesBrightBlue"
+    },
+    "borderSubtle": {
+      "dark": "lowesBorderSubtle",
+      "light": "lightElement"
+    },
+    "diffAdded": {
+      "dark": "lowesSuccess",
+      "light": "lowesSuccess"
+    },
+    "diffRemoved": {
+      "dark": "lowesError",
+      "light": "lowesError"
+    },
+    "diffContext": {
+      "dark": "lowesMuted",
+      "light": "lightMuted"
+    },
+    "diffHunkHeader": {
+      "dark": "lowesMuted",
+      "light": "lightMuted"
+    },
+    "diffHighlightAdded": {
+      "dark": "#4FCF8F",
+      "light": "#2E9D63"
+    },
+    "diffHighlightRemoved": {
+      "dark": "#FF7A7C",
+      "light": "lowesError"
+    },
+    "diffAddedBg": {
+      "dark": "#0A2A1E",
+      "light": "#E0F5EA"
+    },
+    "diffRemovedBg": {
+      "dark": "#2A0F10",
+      "light": "#FBE0E0"
+    },
+    "diffContextBg": {
+      "dark": "lowesPanel",
+      "light": "lightPanel"
+    },
+    "diffLineNumber": {
+      "dark": "lowesElement",
+      "light": "lightElement"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#0A2A1E",
+      "light": "#D0EEDA"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#2D0F0A",
+      "light": "#F5D0D0"
+    },
+    "markdownText": {
+      "dark": "lowesFg",
+      "light": "lightFg"
+    },
+    "markdownHeading": {
+      "dark": "lowesBrightBlue",
+      "light": "lowesBlue"
+    },
+    "markdownLink": {
+      "dark": "lowesLink",
+      "light": "lightLink"
+    },
+    "markdownLinkText": {
+      "dark": "lowesLink",
+      "light": "lightLink"
+    },
+    "markdownCode": {
+      "dark": "lowesCode",
+      "light": "lightCode"
+    },
+    "markdownBlockQuote": {
+      "dark": "lowesMuted",
+      "light": "lightMuted"
+    },
+    "markdownEmph": {
+      "dark": "lowesWarning",
+      "light": "lowesWarning"
+    },
+    "markdownStrong": {
+      "dark": "lowesBrightBlue",
+      "light": "lowesBlue"
+    },
+    "markdownHorizontalRule": {
+      "dark": "lowesElement",
+      "light": "lightElement"
+    },
+    "markdownListItem": {
+      "dark": "lowesBlue",
+      "light": "lowesBlue"
+    },
+    "markdownListEnumeration": {
+      "dark": "lowesBrightBlue",
+      "light": "lowesBrightBlue"
+    },
+    "markdownImage": {
+      "dark": "lowesLink",
+      "light": "lightLink"
+    },
+    "markdownImageText": {
+      "dark": "lowesMuted",
+      "light": "lightMuted"
+    },
+    "markdownCodeBlock": {
+      "dark": "lowesFg",
+      "light": "lightFg"
+    },
+    "syntaxComment": {
+      "dark": "lowesMuted",
+      "light": "lightMuted"
+    },
+    "syntaxKeyword": {
+      "dark": "lowesBrightBlue",
+      "light": "lowesBlue"
+    },
+    "syntaxFunction": {
+      "dark": "lowesCode",
+      "light": "lightCode"
+    },
+    "syntaxVariable": {
+      "dark": "lowesFg",
+      "light": "lightFg"
+    },
+    "syntaxString": {
+      "dark": "lowesSuccess",
+      "light": "lowesSuccess"
+    },
+    "syntaxNumber": {
+      "dark": "lowesWarning",
+      "light": "lowesWarning"
+    },
+    "syntaxType": {
+      "dark": "lowesCode",
+      "light": "lightCode"
+    },
+    "syntaxOperator": {
+      "dark": "lowesBrightBlue",
+      "light": "lowesBrightBlue"
+    },
+    "syntaxPunctuation": {
+      "dark": "lowesFg",
+      "light": "lightFg"
+    }
+  }
+}
