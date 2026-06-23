@@ -2,6 +2,9 @@ LOWECODE is a terminal AI coding agent forked from Opencode (MIT).
 It routes model calls through a local OpenAI-compatible adapter
 backed by Lowe's Mylow.
 
+<img width="1050" height="596" alt="image" src="https://github.com/user-attachments/assets/9a2ddd1b-69a7-4dd8-85db-af4cdbeebca4" />
+
+
 > Not affiliated with, endorsed by, or sponsored by Lowe's.
 > Experimental project. Do not distribute as an official Lowe's product.
 
